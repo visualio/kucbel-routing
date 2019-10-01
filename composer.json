@@ -9,8 +9,9 @@
 	}],
 	"require": {
 		"php": "^7.1",
-		"nette/routing": "^2.4",
-		"nette/utils": "^2.4"
+		"nette/http": "^3.0",
+		"nette/routing": "^3.0",
+		"nette/utils": "^3.0"
 	},
 	"autoload": {
 		"classmap": ["src"]
