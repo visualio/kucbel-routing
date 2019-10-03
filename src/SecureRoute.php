@@ -73,6 +73,10 @@ class SecureRoute implements Router
 	 */
 	function constructUrl( array $data, UrlScript $url ) : string
 	{
+		$data = array_filter( $data, function( $value ) {
+			return $value !== null;
+		});
+
 		try {
 			$json = Json::encode( $data );
 		} catch( JsonException $ex ) {
