@@ -57,7 +57,7 @@ class SecureRoute implements Router
 			throw new ForbiddenRequestException;
 		}
 
-		[ $path, $hash, $base ] = $path;
+		[ 1 => $hash, 2 => $base ] = $path;
 
 		if( $hash !== $this->hash( $base )) {
 			throw new ForbiddenRequestException;
@@ -73,9 +73,7 @@ class SecureRoute implements Router
 	 */
 	function constructUrl( array $data, UrlScript $url ) : string
 	{
-		$data = array_filter( $data, function( $value ) {
-			return $value !== null;
-		});
+		$data = array_filter( $data, [ $this, 'incl']);
 
 		try {
 			$json = Json::encode( $data );
@@ -98,5 +96,15 @@ class SecureRoute implements Router
 	function hash( string $data ) : string
 	{
 		return md5("{$this->salt}+{$data}=?");
+	}
+
+	/**
+	 * @param mixed $value
+	 * @return bool
+	 * @internal
+	 */
+	function incl( $value ) : bool
+	{
+		return $value !== null;
 	}
 }
