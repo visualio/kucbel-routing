@@ -95,7 +95,7 @@ class SecureRoute implements Router
 	 */
 	function hash( string $data ) : string
 	{
-		return md5("{$this->salt}+{$data}=?");
+		return substr( md5("{$this->salt}+{$data}=?"), 4, 16 );
 	}
 
 	/**
