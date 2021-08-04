@@ -21,9 +21,14 @@ class FilterRoute implements Router
 	private $router;
 
 	/**
-	 * @var int
+	 * @var bool
 	 */
-	private $allow;
+	private $match;
+
+	/**
+	 * @var bool
+	 */
+	private $build;
 
 	/**
 	 * FilterRoute constructor.
@@ -34,7 +39,8 @@ class FilterRoute implements Router
 	function __construct( Router $router, int $allow )
 	{
 		$this->router = $router;
-		$this->allow = $allow;
+		$this->match = $allow & self::MATCH ? true : false;
+		$this->build = $allow & self::BUILD ? true : false;
 	}
 
 	/**
@@ -43,7 +49,7 @@ class FilterRoute implements Router
 	 */
 	function match( IRequest $request ) : ?array
 	{
-		if( $this->allow & self::MATCH ) {
+		if( $this->match ) {
 			return $this->router->match( $request );
 		} else {
 			return null;
@@ -57,7 +63,7 @@ class FilterRoute implements Router
 	 */
 	function constructUrl( array $params, UrlScript $url ) : ?string
 	{
-		if( $this->allow & self::BUILD ) {
+		if( $this->build ) {
 			return $this->router->constructUrl( $params, $url );
 		} else {
 			return null;
